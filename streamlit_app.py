@@ -1,8 +1,7 @@
 import streamlit as st
 import openai
-# from config import OPENAI_API_KEY
+from config import OPENAI_API_KEY
 # import ktrain
-OPENAI_API_KEY = "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"
 
 openai.api_key = OPENAI_API_KEY
 

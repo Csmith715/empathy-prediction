@@ -33,3 +33,7 @@ And the accompanying confusion matrix:
     [ 7,  0,  0,  0,  1, 30]
 
 While the accuracy for the model is less than perfect, it does provide a good foundation to start from. More context surrounding the nature of each classification label will be helpful going forward as well. For instance the content of categories 3 and 4 appeared to be very similar with both containing a lot of questions as responses. Additionally, it is unclear if the categories have any ordinal implication. 
+
+
+One last edit. I have made several attempts to try to load the classificaiton model from both Google and OneDrive. However, there seems to be some issues in creating the authentication. Still the model weights can be found through the following link: https://drive.google.com/drive/folders/1I7A6WF__AbvaMf2hCYC2Wjj8Vxyj_jjM?usp=sharing
+

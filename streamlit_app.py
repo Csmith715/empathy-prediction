@@ -1,12 +1,12 @@
 import streamlit as st
 import openai
 from config import OPENAI_API_KEY
-import ktrain
+# import ktrain
 
 openai.api_key = OPENAI_API_KEY
 
-predictor = ktrain.load_predictor('Empathy_Segment_Classifier')
-@st.cache
+# predictor = ktrain.load_predictor('Empathy_Segment_Classifier')
+# @st.cache
 
 
 def empathy_prompt(text: str) -> str:
@@ -40,11 +40,12 @@ else:
 st.write('\nPlease feel free to adjust the input from above as needed. The adjusted input can then be placed below to classify the segment')
 class_text_input = st.text_input('Classification Input')
 if st.button('Classify Output') and class_text_input:
-    try:
-        classification = predictor.predict(class_text_input)
-        st.success(classification)
-    except Exception as e:
-        print(e)
-        st.success('Model Loading Error')
+    st.success('Model Loading Error')
+#     try:
+#         classification = predictor.predict(class_text_input)
+#         st.success(classification)
+#     except Exception as e:
+#         print(e)
+#         st.success('Model Loading Error')
 else:
     st.success('No Classification')

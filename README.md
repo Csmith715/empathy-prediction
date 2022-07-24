@@ -3,6 +3,9 @@
 ## Last Minute Edits
 Unfortunately, the app will not work as I have to get my GPT3 app approved by OpenAI. It seems that training a general BART transformer model would have been easier. Regardless, the work and results are still visable to see.
 
+---
+
+
 This app creates an empathic summary segment based on User/Client input as well as the supportive statement provided by the Caregiver. The app uses a fine-tuned GPT3 model and a fine-tuned distilbert transformer.
 It should be noted that exceptionally long emphatic segments were excluded as they seemed to skew the results. 
 

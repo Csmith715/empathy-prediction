@@ -7,7 +7,7 @@ OPENAI_API_KEY = "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"
 openai.api_key = OPENAI_API_KEY
 
 # predictor = ktrain.load_predictor('Empathy_Segment_Classifier')
-# @st.cache
+@st.cache
 
 
 def empathy_prompt(text: str) -> str:

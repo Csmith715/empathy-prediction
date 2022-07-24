@@ -1,38 +1,50 @@
-from collections import namedtuple
-import altair as alt
-import math
-import pandas as pd
 import streamlit as st
+import openai
+from config import OPENAI_API_KEY
+import ktrain
 
-"""
-# Welcome to Streamlit!
+openai.api_key = OPENAI_API_KEY
 
-Edit `/streamlit_app.py` to customize this app to your heart's desire :heart:
-
-If you have any questions, checkout our [documentation](https://docs.streamlit.io) and [community
-forums](https://discuss.streamlit.io).
-
-In the meantime, below is an example of what you can do with just a few lines of code:
-"""
+predictor = ktrain.load_predictor('Empathy_Segment_Classifier')
+@st.cache
 
 
-with st.echo(code_location='below'):
-    total_points = st.slider("Number of points in spiral", 1, 5000, 2000)
-    num_turns = st.slider("Number of turns in spiral", 1, 100, 9)
+def empathy_prompt(text: str) -> str:
+    response = openai.Completion.create(
+        model='curie:ft-contentware-2022-07-24-17-38-44',
+        prompt=f"{text}\n\n###\n\n",
+        temperature=0.7,
+        max_tokens=35,
+        top_p=1,
+    )
+    out_text = response['choices'][0]['text'].strip('\n')
+    out_text = out_text.split('\n')[0]
+    return out_text
 
-    Point = namedtuple('Point', 'x y')
-    data = []
 
-    points_per_turn = total_points / num_turns
+st.title('Empathy Segment Prediction')
+st.header('Please enter the User and Caregiver Text')
 
-    for curr_point_num in range(total_points):
-        curr_turn, i = divmod(curr_point_num, points_per_turn)
-        angle = (curr_turn + 1) * 2 * math.pi * i / points_per_turn
-        radius = curr_point_num / total_points
-        x = radius * math.cos(angle)
-        y = radius * math.sin(angle)
-        data.append(Point(x, y))
+client_text_input = st.text_input('Client Input')
 
-    st.altair_chart(alt.Chart(pd.DataFrame(data), height=500, width=500)
-        .mark_circle(color='#0068c9', opacity=0.5)
-        .encode(x='x:Q', y='y:Q'))
+cg_text_input = st.text_input('Caregiver Input')
+text_input = f'Client: {client_text_input}\nCaregiver: {cg_text_input}'
+
+class_text_input = ''
+if st.button('Create Empathy Segment') and client_text_input != '' and cg_text_input != '':
+    result = empathy_prompt(text_input)
+    st.success(result)
+else:
+    st.success('No input')
+
+st.write('\nPlease feel free to adjust the input from above as needed. The adjusted input can then be placed below to classify the segment')
+class_text_input = st.text_input('Classification Input')
+if st.button('Classify Output') and class_text_input:
+    try:
+        classification = predictor.predict(class_text_input)
+        st.success(classification)
+    except Exception as e:
+        print(e)
+        st.success('Model Loading Error')
+else:
+    st.success('No Classification')

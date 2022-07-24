@@ -3,7 +3,8 @@
 This app creates an empathic summary segment based on User/Client input as well as the supportive statement provided by the Caregiver. The app uses a fine-tuned GPT3 model and a fine-tuned distilbert transformer.
 It should be noted that exceptionally long emphatic segments were excluded as they seemed to skew the results. 
 
-All of the work done in this project can be found in '/Notebooks'. Although, one of the notebooks may also be found on Google Colab as well: https://colab.research.google.com/drive/1UAZrqCEVq4S1FixqaYuDIrpMhk2cv32t?usp=sharing
+All of the work done in this project can be found in /Notebooks
+Although, one of the notebooks may also be found on Google Colab as well: https://colab.research.google.com/drive/1UAZrqCEVq4S1FixqaYuDIrpMhk2cv32t?usp=sharing
 
 The training results from the segment creation model can be found in gpt3_results.csv
 

@@ -3,6 +3,8 @@
 ## Last Minute Edits
 Unfortunately, the app will not work as I have to get my GPT3 app approved by OpenAI. It seems that training a general BART transformer model would have been easier. Regardless, the work and results are still visable to see.
 
+Additionally, I will be happy to demo the application locally if desired.
+
 ---
 
 

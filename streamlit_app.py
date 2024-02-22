@@ -1,51 +1,32 @@
 import streamlit as st
-import openai
-from config import OPENAI_API_KEY
-# import ktrain
+import pandas as pd
 
-openai.api_key = OPENAI_API_KEY
+def main():
+    st.title("Excel File to Pandas DataFrame Converter")
 
-# predictor = ktrain.load_predictor('Empathy_Segment_Classifier')
-@st.cache
+    # Create a button for file upload
+    uploaded_file = st.file_uploader("Upload Excel file", type=["xls", "xlsx"])
 
+    if uploaded_file is not None:
+        try:
+            # Load the Excel file into a Pandas DataFrame
+            df = pd.read_excel(uploaded_file, sheet_name='Client Summary')
+            st.success("File uploaded successfully. DataFrame created.")
 
-def empathy_prompt(text: str) -> str:
-    response = openai.Completion.create(
-        model='curie:ft-contentware-2022-07-24-17-38-44',
-        prompt=f"{text}\n\n###\n\n",
-        temperature=0.7,
-        max_tokens=35,
-        top_p=1,
-    )
-    out_text = response['choices'][0]['text'].strip('\n')
-    out_text = out_text.split('\n')[0]
-    return out_text
+            # Display the DataFrame
+            st.write(df)
 
+            # Optionally, you can provide a button to download the DataFrame as a CSV
+            st.markdown(get_csv_download_link(df), unsafe_allow_html=True)
 
-st.title('Empathy Segment Prediction')
-st.header('Please enter the User and Caregiver Text')
+        except Exception as e:
+            st.error(f"Error: {e}")
 
-client_text_input = st.text_input('Client Input')
+def get_csv_download_link(df):
+    """Generates a link allowing the DataFrame to be downloaded as a CSV file."""
+    csv = df.to_csv(index=False)
+    href = f'<a href="data:file/csv;base64,{csv}" download="data.csv">Download CSV File</a>'
+    return href
 
-cg_text_input = st.text_input('Caregiver Input')
-text_input = f'Client: {client_text_input}\nCaregiver: {cg_text_input}'
-
-class_text_input = ''
-if st.button('Create Empathy Segment') and client_text_input != '' and cg_text_input != '':
-    result = empathy_prompt(text_input)
-    st.success(result)
-else:
-    st.success('No input')
-
-st.write('\nPlease feel free to adjust the input from above as needed. The adjusted input can then be placed below to classify the segment')
-class_text_input = st.text_input('Classification Input')
-if st.button('Classify Output') and class_text_input:
-    st.success('Model Loading Error')
-#     try:
-#         classification = predictor.predict(class_text_input)
-#         st.success(classification)
-#     except Exception as e:
-#         print(e)
-#         st.success('Model Loading Error')
-else:
-    st.success('No Classification')
+if __name__ == "__main__":
+    main()

@@ -1,2 +1,2 @@
 streamlit
-openai==0.18.1
+pandas==2.1.4
